@@ -50,12 +50,7 @@ public class ReproBean implements ReproItf{
             try {
                 Commande commande = new Commande("Commande");
                 Poly poly = new Poly(titrePoly,nbPages,nomDemandeur);
-                Demandeur demandeur = new Demandeur();
-                demandeur.setNom(nomDemandeur);
 
-                em.persist(demandeur);
-
-                poly.setDemandeur(demandeur);
                 em.persist(poly);
 
 
