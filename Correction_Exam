@@ -1,0 +1,80 @@
+Episode 1
+
+Question 1 :
+
+Classe A          I Classe B    I   Sens de la relation     I Multiplicité
+
+Commande(proprio) I  Poly       I    BI-directionnel        I  OneToOne
+
+La commande est proprio car à la fin de la repro, l'utilisateur doit supprimer le poly. Si on met Poly proprio, on deva supprimer aussi la commande
+
+
+Question 2 :
+
+La sérialisation consiste à écrire des données présentes en mémoire vers un flux de données binaires, ce procédé va donc nous permettre de rendre nos objets persistants.
+
+Explication détaillée :
+
+Il vous permet de prendre un objet ou un groupe d’objets, de les placer sur un disque ou de les envoyer par un mécanisme de transport filaire ou sans fil, puis, plus tard, éventuellement sur un autre ordinateur, inversez la procédure: ressuscitez le ou les objets d’origine. Les mécanismes de base consistent à aplatir un ou plusieurs objets en un flux de bits unidimensionnel et à reconvertir ce flux en un ou plusieurs objets originaux.
+
+Comme dans Transporter on Star Trek, il s’agit de prendre quelque chose de compliqué et de le transformer en une séquence plate de 1 et de 0, puis de prendre cette séquence de 1 et de 0 (éventuellement à un autre endroit, éventuellement à un autre moment) et de reconstruire l’original compliqué " quelque chose."
+
+Donc, implémentez l'interface Serializable lorsque vous devez stocker une copie de l'objet, envoyez-les à un autre processus qui s'exécute sur le même système ou sur le réseau.
+
+Parce que vous voulez stocker ou envoyer un objet.
+
+Cela facilite le stockage et l'envoi d'objets. Cela n'a rien à voir avec la sécurité.
+
+Question 3 :
+
+Voir les entités Commande et Poly
+
+Question 4 :
+
+Je ne sais pas mais j'ai mis Stateless car ce n'est pas un programme conversationnel. On persiste les entité à chaque méthode donc je ne vois pas pk on metterait Stateless
+
+Explication :
+
+For stateless session beans the server can maintain a variable amount of instances in a pool. Each time a client requests such a stateless bean (e.g. through a method) a random instance is chosen to serve that request. That means if the client does two subsequent requests it is possible that two different instances of the stateless bean serve the requests. In fact there is no conversational state between the two requests. Also if the client disappears, the stateless bean does not get destroyed and can serve the next request from another client.
+
+On the other hand a stateful session bean is closely connected to the client. Each instance is created and bounded to a single client and serves only requests from that particular client. So happens that if you do two subsequent requests on a stateful bean, your request will be served always from the same instance of the bean. That means you can maintain a conversational state between the requests. At the end of the lifecyle, the client calls a remove method and the bean is being destroyed/ready for garbage collection.
+
+When to use stateless or stateful?
+
+That mainly depends on whether you want to maintain the conversational state. For example if you have a method that adds up two numbers and return the result you use a stateless bean because its a one time operation. If you call this method a second time with other numbers you are not interested in the result of the previous addition anymore.
+
+But if you want, for example, count the number of requests a client has done, you have to use a stateful bean. In this scenario it is important to know how often the client has requested the bean method before, so you have to maintain conversational state in the bean (e.g. with a variable). If you would use a stateless bean here, the request of the client would be served each time from a different bean, what messes up your results.
+
+
+
+
+Episode 2
+
+
+Question 7 :
+
+Classe A          I Classe B    I   Sens de la relation     I Multiplicité
+
+Poly(proprio)     I  Demandeur  I    UNI-directionnel        I  ManyToOne
+
+Question 8 :
+
+- Ajouter une entité Demandeur
+- Ajouter une relation ManyToOne et une forein key dans Poly (voir le code)
+ps. Ces deux truc on n'a na pas vraiment besoin .. je ne sais pas pourquoi elle a changé le diagramme UML mais bon
+
+- On ajoute une interface ReproProfItf + ReproProfBean Stateless car on n'a pas besoin de savoir ce qui a été fait avant ?
+- Ecrire la fonction consulter (voir code)
+
+Script :
+
+CREATE TABLE DEMANDEUR
+   (
+    id INTEGER(6) NOT NULL AUTO_INCREMENT,
+   	nom VARCHAR(12) NULL,
+    mail VARCHAR(12) NULL,
+    CONSTRAINT PK_DEMANDEUR PRIMARY KEY (id)
+   ) ;
+
+ALTER TABLE POLY ADD idDemandeur INTEGER(6);
+ALTER TABLE POLY ADD  CONSTRAINT PK_sonDemandeur_ID FOREIGN KEY (idDemandeur) REFERENCES DEMANDEUR(id);

@@ -1,0 +1,50 @@
+CREATE TABLE UTILISATEUR_REPRO
+   (
+
+    idUtilisateur INTEGER (6) NOT NULL,
+	  login VARCHAR(12) NULL,
+	  password VARCHAR(12) NULL,
+    CONSTRAINT PK_UTILISATEUR PRIMARY KEY (idUtilisateur)
+   ) ;
+
+insert into UTILISATEUR_REPRO values (1,'nas', "khatir");
+insert into UTILISATEUR_REPRO values (2,'jean', "mouloud");
+insert into UTILISATEUR_REPRO values (3,'zinnedine', "zidane");
+
+CREATE TABLE DEMANDEUR
+   (
+    id INTEGER(6) NOT NULL AUTO_INCREMENT,
+   	nom VARCHAR(12) NULL,
+    mail VARCHAR(12) NULL,
+    CONSTRAINT PK_DEMANDEUR PRIMARY KEY (id)
+   ) ;
+
+CREATE TABLE POLY
+   (
+
+    idPoly INTEGER(6) NOT NULL AUTO_INCREMENT,
+   	titre VARCHAR(12) NULL,
+	  nbPages INTEGER(6) NULL,
+	  nomDemandeur VARCHAR(12) NULL,
+	  idDemandeur INTEGER(6),
+    CONSTRAINT PK_POLY PRIMARY KEY (idPoly),
+    CONSTRAINT UNIQUE_TITRE UNIQUE (titre),
+    CONSTRAINT PK_sonDemandeur_ID FOREIGN KEY (idDemandeur) REFERENCES DEMANDEUR(id)
+   ) ;
+
+CREATE TABLE COMMANDE
+   (
+    numero INTEGER(6) NOT NULL AUTO_INCREMENT,
+   	etat VARCHAR(12) NULL,
+    idPoly INTEGER(6),
+    CONSTRAINT PK_COMMANDE PRIMARY KEY (numero),
+    CONSTRAINT FK_POLY_ID FOREIGN KEY (idPoly) REFERENCES POLY(idPoly)
+   ) ;
+
+
+
+
+
+ALTER TABLE POLY ADD idDemandeur INTEGER(6);
+ALTER TABLE POLY ADD  CONSTRAINT PK_sonDemandeur_ID FOREIGN KEY (idDemandeur) REFERENCES DEMANDEUR(id);
+
