@@ -19,7 +19,6 @@ public class ReproBean implements ReproItf{
     private EntityManager em;
 
     private boolean isConnected = false;
-
     @Override
     public String authentification(String login, String password) {
 
@@ -45,27 +44,25 @@ public class ReproBean implements ReproItf{
     public int depot(String titrePoly, int nbPages, String nomDemandeur) {
 
         int i = 0;
-        if(isConnected){
-
-            try {
-                Commande commande = new Commande("Commande");
-                Poly poly = new Poly(titrePoly,nbPages,nomDemandeur);
-
-                em.persist(poly);
+        if(isConnected) {
 
 
-                commande.setLePoly(poly);
-                em.persist(commande);
+            Commande commande = new Commande("Commande");
+            Poly poly = new Poly(titrePoly, nbPages, nomDemandeur);
+            poly.setLeDemander((Demandeur) em.createQuery("SELECT d FROM Demandeur d WHERE d.nom = :nom").setParameter("nom", nomDemandeur).getSingleResult());
+
+            em.persist(poly);
 
 
-                i = (int) em.createQuery ("SELECT p.laCommande.numero FROM Poly p WHERE p.titre = :titre").setParameter("titre",titrePoly).getSingleResult();
+            commande.setLePoly(poly);
 
-            }catch (Exception e){
-                System.out.println("Erreur");
-            }
-        }else {
-            return 0;
+            em.merge(commande);
+            em.persist(commande);
+
+
+            i = (int) em.createQuery("SELECT p.laCommande.numero FROM Poly p WHERE p.titre = :titre").setParameter("titre", titrePoly).getSingleResult();
         }
+
         return i;
     }
 
@@ -100,24 +97,32 @@ public class ReproBean implements ReproItf{
     @Override
     public int updateEtat(String titrePoly, String newEtat) {
 
-        int numCommande = 0;
+        int numCommande;
 
         if (isConnected){
 
             if (newEtat.equals("livre")){
 
-                  Poly poly = (Poly) em.createQuery ("SELECT p FROM Poly p WHERE p.titre = :titre")
-                            .setParameter("titre",titrePoly)
-                            .getSingleResult();
+                int idCommande = (int) em.createQuery ("SELECT p.laCommande.numero FROM Poly p WHERE p.titre = :titre")
+                        .setParameter("titre",titrePoly)
+                        .getSingleResult();
 
-                  Commande commande = poly.getLaCommande();
-                  commande.setEtat(newEtat);
-                  commande.setLePoly(null);
 
-                  poly.setLaCommande(null);
+                Commande commande = em.find(Commande.class, idCommande);
+                commande.setEtat(newEtat);
 
-                  numCommande = em.createQuery ("DELETE FROM Poly p WHERE p.titre = :titre").setParameter("titre",titrePoly).executeUpdate();
 
+                Poly poly =  (Poly) em.createQuery ("SELECT p FROM Poly p WHERE p.titre = :titre").setParameter("titre",titrePoly)
+                        .getSingleResult();;
+                commande.setLePoly(null);
+                poly.setLaCommande(null);
+                poly.setLeDemander(null);
+
+                em.persist(commande);
+
+                em.remove(poly);
+
+                numCommande = 1;
              }
 
             else {
