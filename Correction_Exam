@@ -78,3 +78,15 @@ CREATE TABLE DEMANDEUR
 
 ALTER TABLE POLY ADD idDemandeur INTEGER(6);
 ALTER TABLE POLY ADD  CONSTRAINT PK_sonDemandeur_ID FOREIGN KEY (idDemandeur) REFERENCES DEMANDEUR(id);
+
+Question 9 :
+
+Voir surtout la partie update.
+
+S'il utilise la consultation de la partie 1, il obtient rien puisque en changeant l'état du poly à livré, il supprime l'item Poly et toutes les informations. Il n y a que la commande qui reste :)
+
+
+
+
+
+FIN. Qu'est ce que j'en ai chié x)

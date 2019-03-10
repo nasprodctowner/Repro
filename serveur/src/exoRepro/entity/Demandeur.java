@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Table(name = "test.DEMANDEUR")
 public class Demandeur {
 
-    private int idDemandeur;
+    private int id;
     private String nom;
     private String mail;
 
@@ -22,13 +22,14 @@ public class Demandeur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getIdDemandeur() {
-        return idDemandeur;
+    public int getId() {
+        return id;
     }
 
-    public void setIdDemandeur(int idDemandeur) {
-        this.idDemandeur = idDemandeur;
+    public void setId(int id) {
+        this.id = id;
     }
+
 
     public String getNom() {
         return nom;

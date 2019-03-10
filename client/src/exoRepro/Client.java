@@ -25,7 +25,7 @@ public class Client {
         }
         Scanner scanner = new Scanner(System.in);
 
-
+        /*
         char reponse = 'O';
 
         while(reponse == 'O'){
@@ -90,13 +90,119 @@ public class Client {
 
         }
 
-
+        */
         /*
         repro.authentification("nas","khatir");
         System.out.println(repro.updateEtat("bb","livre"));
+
+
+
+        System.out.println("Id Commande ?");
+        int idCommande = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("L'état de la commande "+idCommande+" est : "+reproProf.consulterEtatByIdCommande(idCommande));
+
+
+
         */
 
 
+
+
+//QUESTION 9
+
+        char reponse = 'O';
+
+        while(reponse == 'O'){
+            System.out.println("Nom");
+            String login = scanner.nextLine();
+            scanner.nextLine();
+
+            System.out.println("Mot de passe ?");
+            String passwd = scanner.nextLine();
+            scanner.nextLine();
+
+            if (repro.authentification(login, passwd).equals("CONNECTION OK !")) {
+
+
+                System.out.println("Bienvenu ! ");
+
+
+                System.out.println("Titre Poly à créer ? ");
+                String titrePoly = scanner.nextLine();
+                scanner.nextLine();
+
+                System.out.println("Nom demandeur ?");
+                String nomDemandeur = scanner.nextLine();
+                scanner.nextLine();
+
+                System.out.println("Nombre de page ?");
+                int nbPages = scanner.nextInt();
+                scanner.nextLine();
+
+                System.out.println("Votre numéro de commande est : "+repro.depot(titrePoly,nbPages,nomDemandeur));
+
+                System.out.println("Id Commande ?");
+                int idCommande = scanner.nextInt();
+                scanner.nextLine();
+
+                System.out.println("L'état de la commande "+idCommande+" est : "+reproProf.consulterEtatByIdCommande(idCommande));
+
+
+                System.out.println("Nom du poly à mettre à jour ?");
+                String nomPoly = scanner.nextLine();
+                scanner.nextLine();
+
+                System.out.println("Nouvel état ?");
+                String newEtat = scanner.nextLine();
+                scanner.nextLine();
+
+                if(repro.updateEtat(nomPoly,newEtat) == 1) System.out.println("Le poly a été supprimé");
+                else System.out.println("L'état de la commande "+repro.updateEtat(nomPoly,newEtat)+" a été mis à jour");
+
+                System.out.println("Id Commande ?");
+                int idCo = scanner.nextInt();
+                scanner.nextLine();
+
+                System.out.println("L'état de la commande "+idCo+" est : "+reproProf.consulterEtatByIdCommande(idCo));
+
+
+                System.out.println("Titre ?");
+                String titreP = scanner.nextLine();
+                scanner.nextLine();
+                Collection<Object[]> laListe = repro.consulterEtat(titreP);
+                for (Object[] obj : laListe) {
+                    String titre = (String) obj[0];
+                    String etat = (String) obj[1];
+                    System.out.println(titre + "     " + etat);
+                }
+
+                break;
+            }else {
+                System.out.println("Nop ! Voulez-vous réessayer ? (O/N)");
+                reponse = scanner.nextLine().charAt(0);
+            }
+
+        }
+
+
+
+        /*
+        repro.authentification("nas","khatir");
+
+
+       repro.depot("wawawa",12,"MPG");
+
+        Collection<Object[]> laListe = repro.consulterEtat("wiwi");
+        for (Object[] obj : laListe) {
+            String titre = (String) obj[0];
+            String etat = (String) obj[1];
+            System.out.println(titre + "     " + etat);
+        }
+
+        System.out.println(repro.updateEtat("wawawa","livre"));
+        */
 
 
     }

@@ -12,6 +12,7 @@ public class Poly {
     private int nbPages;
     private String nomDemandeur;
     private Commande laCommande;
+    private Demandeur leDemander;
 
 
     public Poly(String titre, int nbPages, String nomDemandeur) {
@@ -67,5 +68,15 @@ public class Poly {
 
     public void setLaCommande(Commande laCommande) {
         this.laCommande = laCommande;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idDemandeur")
+    public Demandeur getLeDemander() {
+        return leDemander;
+    }
+
+    public void setLeDemander(Demandeur leDemander) {
+        this.leDemander = leDemander;
     }
 }
